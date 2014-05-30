@@ -3,7 +3,7 @@
 using namespace sf;
 int main()
 {
-	RenderWindow okno(VideoMode(320, 240), "Kurs SFML 2.0 - http://cpp0x.pl");
+	RenderWindow okno(VideoMode(800, 600), "Kurs SFML 2.0 - http://cpp0x.pl");
 	Clock stoper;
 	while (okno.isOpen())
 	{
