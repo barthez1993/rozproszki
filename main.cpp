@@ -1,28 +1,54 @@
 #include <SFML/Graphics.hpp>
 #include <cmath>
-using namespace sf;
+#include <iostream>
+#include <Windows.h>
+
 int main()
 {
-	RenderWindow okno(VideoMode(1024, 600), "Kurs SFML 2.0 - http://cpp0x.pl");
-	Clock stoper;
-	while (okno.isOpen())
+	// create the window
+	sf::RenderWindow window(sf::VideoMode(1280, 720), "ARKANOID");
+	sf::Font font;
+	sf::Text text;
+	text.setFont(font);
+	if (!font.loadFromFile("res/basictitlefont.ttf"))
 	{
-		Event event;
-		while (okno.pollEvent(event))
+		OutputDebugString("nie widzi czcionki!\n");
+		/* print current directory 
+		TCHAR pwd[MAX_PATH];
+		GetCurrentDirectory(MAX_PATH, pwd);
+		MessageBox(NULL, pwd, pwd, 0); */
+	}
+	// run the program as long as the window is open
+	while (window.isOpen())
+	{
+		// check all the window's events that were triggered since the last iteration of the loop
+		sf::Event event;
+		while (window.pollEvent(event))
 		{
-			if (event.type == Event::Closed)
-				okno.close();
+			// "close requested" event: we close the window
+			if (event.type == sf::Event::Closed)
+				window.close();
+		}
+		text.setString("Arkanoid kurwa!");
+		text.setCharacterSize(96);			//w pikselach
+		text.setColor(sf::Color::Red);
+		text.setPosition(500, 500);
+		sf::RectangleShape gameField(sf::Vector2f(720, 720));	//wymiary pola gry, musi byc kwadrat
+		gameField.setFillColor(sf::Color(150, 50, 250));		//kolor RGB do wypelnienia
 
-		} //while
-		okno.clear();
+		// clear the window with black color
+		window.clear(sf::Color::Black);
 
-		CircleShape ksztalt(std::sin(stoper.getElapsedTime().asSeconds()) * okno.getSize().y / 8 + okno.getSize().y / 4);
-		ksztalt.setOrigin(Vector2f(ksztalt.getRadius(), ksztalt.getRadius()));
-		ksztalt.setPosition(okno.getSize().x / 2.0f, okno.getSize().y / 2.0f);
-		ksztalt.setFillColor(Color::Yellow);
-		okno.draw(ksztalt);
+		// draw everything here...
+		// window.draw(...);
 
-		okno.display();
-	} //while
+
+		window.draw(gameField);
+		window.draw(text);
+
+		// end the current frame
+		window.display();
+	}
+
 	return 0;
 }
