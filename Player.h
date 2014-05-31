@@ -9,6 +9,7 @@ public:
 	{
 		name = imie;
 		index = numer;
+		score = 0;
 		//if index = 1 to x =... y=... dla wszystkich pozycje startowe
 	}
 	~Player();
@@ -17,6 +18,7 @@ private:
 	int index;		//1, 2 3 lub 4
 	int x;
 	int y;
+	int score;
 
 };
 

@@ -2,6 +2,17 @@
 #include <cmath>
 #include <iostream>
 #include <Windows.h>
+#include "Player.h"
+
+Player pierwszy("Bartek", 1);
+Player drugi("Maria", 2);
+Player trzeci("Michal", 3);
+Player czwarty("JanDaciuk", 4);
+
+void createPlayerWindow(Player player)
+{
+
+}
 
 int main()
 {
