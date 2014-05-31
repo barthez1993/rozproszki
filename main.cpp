@@ -14,6 +14,9 @@ void createPlayerWindow(Player player)
 
 }
 
+
+
+// WYSLANEEEEEE
 int main()
 {
 	// create the window
