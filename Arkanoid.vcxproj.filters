@@ -23,13 +23,13 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Font Include="res\basictitlefont.ttf">
-      <Filter>Resource Files</Filter>
-    </Font>
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="Player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="res\Roboto-Light.ttf">
+      <Filter>Resource Files</Filter>
+    </Font>
   </ItemGroup>
 </Project>

@@ -1,24 +1,28 @@
 #pragma once
 #include <string>
+#include <sstream>
+
 using namespace std;
 class Player
 {
-public:
-	Player();
-	Player(string imie, int numer)
-	{
-		name = imie;
-		index = numer;
-		score = 0;
-		//if index = 1 to x =... y=... dla wszystkich pozycje startowe
-	}
-	~Player();
 private:
 	string name;
 	int index;		//1, 2 3 lub 4
 	int x;
 	int y;
 	int score;
+	Player() {};	//prywatny domyœlny konstruktor
+public:
+	Player(string imie, int numer);	// konstruktor
 
+
+	int getIndex() { return index; }
+	string getName() { return name; }
+	int getScore() { return score; }
+	string getStringScore()
+	{
+		ostringstream ss;
+		ss << score;
+		return ss.str();
+	}
 };
-

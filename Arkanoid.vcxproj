@@ -77,10 +77,10 @@
     <ClCompile Include="Player.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Font Include="res\basictitlefont.ttf" />
+    <ClInclude Include="Player.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Player.h" />
+    <Font Include="res\Roboto-Light.ttf" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
