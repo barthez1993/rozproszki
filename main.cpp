@@ -20,7 +20,8 @@ void createPlayerPaddle(Player player)		//tworzenie paletki
 	if (player.getOrientation()) paddle.setSize(sf::Vector2f(150, 15));
 	else paddle.setSize(sf::Vector2f(15, 150));
 	paddle.setFillColor(player.getColor());
-	if (player.getOrientation()) player.setX(timer.getElapsedTime().asSeconds()*60);
+	
+	if (player.getOrientation()) player.setX(timer.getElapsedTime().asSeconds()*60);	//do debuga
 	paddle.move(player.getX(), player.getY());
 	window.draw(paddle);
 }
