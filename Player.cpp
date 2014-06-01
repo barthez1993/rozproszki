@@ -7,6 +7,32 @@ Player::Player(string imie, int numer)
 	index = numer;
 	score = 0;
 	lives = 3;
-	//if index = 1 to x =... y=... dla wszystkich pozycje startowe
+	switch (index)
+	{
+	case 1:
+		y = 700;
+		x = 285;
+		orientation = true;
+		color = sf::Color::Red;
+		break;
+	case 2:
+		y = 5;
+		x = 285;
+		orientation = true;
+		color = sf::Color::Green;
+		break;
+	case 3:
+		y = 285;
+		x = 5;
+		orientation = false;
+		color = sf::Color::Blue;
+		break;
+	case 4:
+		y = 285;
+		x = 700;
+		orientation = false;
+		color = sf::Color::Yellow;
+		break;
+	}
 }
 

@@ -12,7 +12,18 @@ Player czwarty("JanDaciuk", 4);
 //zmienne globalne rz¹dz¹!
 sf::ContextSettings settings(0,0,4,2,1);	//wygladzanie krawedzi x4
 sf::RenderWindow window(sf::VideoMode(1280, 720), "ARKANOID", sf::Style::Default, settings);
+sf::Clock timer;
 
+void createPlayerPaddle(Player player)		//tworzenie paletki
+{
+	sf::RectangleShape paddle;
+	if (player.getOrientation()) paddle.setSize(sf::Vector2f(150, 15));
+	else paddle.setSize(sf::Vector2f(15, 150));
+	paddle.setFillColor(player.getColor());
+	if (player.getOrientation()) player.setX(timer.getElapsedTime().asSeconds()*60);
+	paddle.move(player.getX(), player.getY());
+	window.draw(paddle);
+}
 
 void createPlayerWindow(Player player)
 {
@@ -20,23 +31,7 @@ void createPlayerWindow(Player player)
 	playerWindow.setFillColor(sf::Color());
 	playerWindow.setOutlineThickness(-5);
 	int y = (player.getIndex() - 1) * 180;
-	sf::Color kolor;
-	switch (player.getIndex())
-	{
-	case 1:		
-		kolor = sf::Color::Red;	
-		break;
-	case 2:
-		kolor = sf::Color::Green;
-		break;
-	case 3:
-		kolor = sf::Color::Blue;
-		break;
-	case 4:
-		kolor = sf::Color::Yellow;
-		break;
-	}
-	playerWindow.setOutlineColor(kolor);
+	playerWindow.setOutlineColor(player.getColor());
 	sf::Font font;
 	if (!font.loadFromFile("res/Roboto-Light.ttf"))
 	{
@@ -50,7 +45,7 @@ void createPlayerWindow(Player player)
 	name.setFont(font);
 	name.setString(player.getName()+"\n"+player.getStringScore());
 	name.setCharacterSize(60);
-	name.setColor(kolor);
+	name.setColor(player.getColor());
 	playerWindow.move(720, y);
 	name.move(720 + 20, y + 10);
 	window.draw(playerWindow);
@@ -62,11 +57,13 @@ void createPlayerWindow(Player player)
 		heart.loadFromFile("res/heart.png");
 		sf::Sprite heartSprite;
 		heartSprite.setTexture(heart);
-		heartSprite.setColor(kolor);
+		heartSprite.setColor(player.getColor());
 		heartSprite.move(1280-i*80, y+10);
 		window.draw(heartSprite);
 	}
+	createPlayerPaddle(player);
 }
+
 
 
 
