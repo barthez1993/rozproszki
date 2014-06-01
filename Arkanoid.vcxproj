@@ -82,6 +82,9 @@
   <ItemGroup>
     <Font Include="res\Roboto-Light.ttf" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\heart.png" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

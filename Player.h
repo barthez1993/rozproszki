@@ -11,6 +11,7 @@ private:
 	int x;
 	int y;
 	int score;
+	int lives;
 	Player() {};	//prywatny domyœlny konstruktor
 public:
 	Player(string imie, int numer);	// konstruktor
@@ -19,6 +20,7 @@ public:
 	int getIndex() { return index; }
 	string getName() { return name; }
 	int getScore() { return score; }
+	int getLives() { return lives; }
 	string getStringScore()
 	{
 		ostringstream ss;

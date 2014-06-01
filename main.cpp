@@ -10,7 +10,9 @@ Player trzeci("Michal", 3);
 Player czwarty("JanDaciuk", 4);
 
 //zmienne globalne rz¹dz¹!
-sf::RenderWindow window(sf::VideoMode(1280, 720), "ARKANOID");
+sf::ContextSettings settings(0,0,4,2,1);	//wygladzanie krawedzi x4
+sf::RenderWindow window(sf::VideoMode(1280, 720), "ARKANOID", sf::Style::Default, settings);
+
 
 void createPlayerWindow(Player player)
 {
@@ -22,16 +24,16 @@ void createPlayerWindow(Player player)
 	switch (player.getIndex())
 	{
 	case 1:		
-		kolor = sf::Color(255, 0, 0);	
+		kolor = sf::Color::Red;	
 		break;
 	case 2:
-		kolor = sf::Color(0, 255, 0);
+		kolor = sf::Color::Green;
 		break;
 	case 3:
-		kolor = sf::Color(0, 0, 255);
+		kolor = sf::Color::Blue;
 		break;
 	case 4:
-		kolor = sf::Color(255, 255, 0);
+		kolor = sf::Color::Yellow;
 		break;
 	}
 	playerWindow.setOutlineColor(kolor);
@@ -53,6 +55,17 @@ void createPlayerWindow(Player player)
 	name.move(720 + 20, y + 10);
 	window.draw(playerWindow);
 	window.draw(name);
+	//zycia
+	for (int i = 1; i <= player.getLives(); i++)
+	{
+		sf::Texture heart;
+		heart.loadFromFile("res/heart.png");
+		sf::Sprite heartSprite;
+		heartSprite.setTexture(heart);
+		heartSprite.setColor(kolor);
+		heartSprite.move(1280-i*80, y+10);
+		window.draw(heartSprite);
+	}
 }
 
 
