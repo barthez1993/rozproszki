@@ -13,15 +13,29 @@ Player czwarty("JanDaciuk", 4);
 sf::ContextSettings settings(0,0,4,2,1);	//wygladzanie krawedzi x4
 sf::RenderWindow window(sf::VideoMode(1280, 720), "ARKANOID", sf::Style::Default, settings);
 sf::Clock timer;
-
+void paddleControl(Player player)
+{
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+	{
+		pierwszy.moveLeft();
+	}
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+	{
+		pierwszy.moveRight();
+	}
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+	{
+		window.close();
+	}
+}
 void createPlayerPaddle(Player player)		//tworzenie paletki
 {
 	sf::RectangleShape paddle;
-	if (player.getOrientation()) paddle.setSize(sf::Vector2f(150, 15));
-	else paddle.setSize(sf::Vector2f(15, 150));
+	if (player.getOrientation()) paddle.setSize(sf::Vector2f(player.getWidth(), 15));
+	else paddle.setSize(sf::Vector2f(15, player.getWidth()));
 	paddle.setFillColor(player.getColor());
 	
-	if (player.getOrientation()) player.setX(timer.getElapsedTime().asSeconds()*60);	//do debuga
+	//if (player.getOrientation()) player.setX(timer.getElapsedTime().asSeconds()*60);	//do debuga
 	paddle.move(player.getX(), player.getY());
 	window.draw(paddle);
 }
@@ -83,9 +97,15 @@ int main()
 		while (window.pollEvent(event))
 		{
 			// "close requested" event: we close the window
-			if (event.type == sf::Event::Closed)
+			switch (event.type)
+			{
+			case sf::Event::Closed:
 				window.close();
+				break;
+			}		
 		}
+		paddleControl(pierwszy);
+		//costam
 		sf::RectangleShape gameField(sf::Vector2f(720, 720));	//wymiary pola gry, musi byc kwadrat
 		gameField.setFillColor(sf::Color());		//kolor RGB do wypelnienia
 

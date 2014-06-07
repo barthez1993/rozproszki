@@ -3,6 +3,7 @@
 
 Player::Player(string imie, int numer)
 {
+	width = 150;
 	name = imie;
 	index = numer;
 	score = 0;
