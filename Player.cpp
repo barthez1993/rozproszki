@@ -1,11 +1,11 @@
 #include "Player.h"
 
 
-Player::Player(string imie, int numer)
+Player::Player(string imie)
 {
 	width = 150;
 	name = imie;
-	index = numer;
+	index = GetCount();
 	score = 0;
 	lives = 3;
 	switch (index)

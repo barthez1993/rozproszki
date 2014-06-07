@@ -4,10 +4,10 @@
 #include <Windows.h>
 #include "Player.h"
 
-Player pierwszy("Bartek", 1);
-Player drugi("Maria", 2);
-Player trzeci("Michal", 3);
-Player czwarty("JanDaciuk", 4);
+Player pierwszy("Bartek");
+Player drugi("Maria");
+Player trzeci("Michal");
+Player czwarty("JanDaciuk");
 
 //zmienne globalne rz¹dz¹!
 sf::ContextSettings settings(0,0,4,2,1);	//wygladzanie krawedzi x4
