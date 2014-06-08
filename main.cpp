@@ -73,7 +73,7 @@ void createPlayerWindow(Player player)
 
 void przesunPaletkiGraczyNaSerwerze()
 {
-	//Przechodzimy po wszystkich graczach przechowywanych w mapie
+	//Przechodzimy po wszystkich graczach przechowywanych w std map
 	for (Serwer::Gracze::iterator i = serwer.gracze.begin(); i != serwer.gracze.end(); i++)
 	{
 		DaneGracza daneGracza = i->second;
