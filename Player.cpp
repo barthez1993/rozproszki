@@ -1,9 +1,9 @@
 #include "Player.h"
 
 
-Player::Player(string imie)
+Player::Player()
 {
-	name = imie;
+	width = 150;
 	index = GetCount();
 	score = 0;
 	lives = 3;

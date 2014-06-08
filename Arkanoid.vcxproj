@@ -73,11 +73,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Klient.cpp" />
+    <ClCompile Include="Level.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Serwer1.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Klient.h" />
+    <ClInclude Include="Level.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Serwer.h" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="res\Roboto-Light.ttf" />
