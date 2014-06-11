@@ -95,4 +95,8 @@ public:
 	{
 		score += points;
 	}
+	void removeLive()
+	{
+		lives--;
+	}
 };

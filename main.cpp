@@ -279,7 +279,7 @@ void createBall(Ball ball)
 	window.draw(ballShape);
 }
 
-int main()
+int main(int argc, char *argv[])
 {
 
 	gracze[0].setName("Gracz 1");
@@ -303,8 +303,9 @@ int main()
 	}
 
 	wczytaj_mape();
+	//klient.podlaczDoSerwera(argv[1]);
 	klient.podlaczDoSerwera("127.0.0.1");
-	
+	//klient.podlaczDoSerwera("192.168.0.12");
 	// run the program as long as the window is open
 	while (window.isOpen())
 	{
@@ -381,14 +382,14 @@ int main()
 		/* do debuga, pozniej wykomentowac */
 		if (gameStarted == false)
 		{
-			ball.setDx(-1);
-			ball.setDy(0);
-			ball.setPosition(150, 360);
+			ball.setDx(0);
+			ball.setDy(1);
+			//ball.setPosition(150, 360);
 			gameStarted = true;
 		}
 		//czy jest w srodkowym kwadracie
 		//wszedzie +5 bo obliczamy dla œrodka pilki a nie jej gornego lewego rogu
-		if (ball.getX()+5 >= 180 && ball.getX()+5 <= 540 && ball.getY()+5 >= 180 && ball.getY()+5 <= 540)
+		if (ball.getX()+5 >= 180 && ball.getX()+5 <= 540 && ball.getY()+5 >= 180 && ball.getY()+5 < 540)
 		{
 			mapaX = (ball.getX()+5 - 180) / 30;
 			mapaY = (ball.getY()+5 - 180) / 30;
@@ -405,7 +406,7 @@ int main()
 		
 		//sprawdzanie kolizji z klockiem dla gracza 1
 		//sprawdzanie kolizji z graczem
-		else if (ball.getY()+10 == gracze[0].getY())		//gracz 1
+		else if (ball.getY()+10 == gracze[0].getY() && ball.getX()+10>=gracze[0].getX() && ball.getX()+10 <= gracze[0].getX()+gracze[0].getWidth())		//gracz 1
 		{
 			float pointB = ball.getX();			// wspolrzedna X kolizji pilki
 			float pointP = gracze[0].getX();	//wspolrzedna X kolizji paletki
@@ -415,7 +416,7 @@ int main()
 			ball.setDy(-1);
 			ball.setLastPlayer(0);
 		}
-		else if (ball.getY() - 10 == gracze[1].getY())		//gracz 2
+		else if (ball.getY() - 10 == gracze[1].getY() && ball.getX() - 10 >= gracze[1].getX() && ball.getX() - 10 <= gracze[1].getX() + gracze[1].getWidth())		//gracz 2
 		{
 			float pointB = ball.getX();			// wspolrzedna X kolizji pilki
 			float pointP = gracze[1].getX();	//wspolrzedna X kolizji paletki
@@ -425,7 +426,7 @@ int main()
 			ball.setDy(1);
 			ball.setLastPlayer(1);
 		}
-		else if (ball.getX() - 10 == gracze[2].getX())		//gracz 3
+		else if (ball.getX() - 10 == gracze[2].getX() && ball.getY() - 10 >= gracze[2].getY() && ball.getY() - 10 <= gracze[2].getY() + gracze[2].getWidth())		//gracz 3
 		{
 			float pointB = ball.getY();			// wspolrzedna Y kolizji pilki
 			float pointP = gracze[2].getY();	//wspolrzedna Y kolizji paletki
@@ -435,7 +436,7 @@ int main()
 			ball.setDy(angleY);
 			ball.setLastPlayer(2);
 		}
-		else if (ball.getX() + 10 == gracze[2].getX())		//gracz 4
+		else if (ball.getX() + 10 == gracze[2].getX() && ball.getY() + 10 >= gracze[3].getY() && ball.getY() + 10 <= gracze[3].getY() + gracze[3].getWidth())		//gracz 4
 		{
 			float pointB = ball.getY();			// wspolrzedna Y kolizji pilki
 			float pointP = gracze[3].getY();	//wspolrzedna Y kolizji paletki
@@ -444,6 +445,35 @@ int main()
 			ball.setDx(-1);
 			ball.setDy(angleY);
 			ball.setLastPlayer(3);
+		}
+		//wyjscie pilki poza zakres
+		if (ball.getX() <= 0)
+		{
+			gracze[2].removeLive();
+			ball.setPosition(150, 360);
+			ball.setDy(0);
+			ball.setDx(-1);
+		}
+		if (ball.getX() >= 730)
+		{
+			gracze[3].removeLive();
+			ball.setPosition(560, 360);
+			ball.setDy(0);
+			ball.setDx(1);
+		}
+		if (ball.getY() <= 0)
+		{
+			gracze[1].removeLive();
+			ball.setPosition(360, 150);
+			ball.setDy(-1);
+			ball.setDx(0);
+		}
+		if (ball.getY() >= 730)
+		{
+			gracze[0].removeLive();
+			ball.setPosition(360, 560);
+			ball.setDy(1);
+			ball.setDx(0);
 		}
 		window.display();
 	}
