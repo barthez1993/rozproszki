@@ -125,7 +125,8 @@ void wyslijDaneDoKlientow()
 		dane << gracze[i].getX();
 		dane << gracze[i].getY();
 	}
-	serwer.wyslijPakietDoGraczy(dane);
+	serwer.wyslijPakietDoGraczy(dane);//iterujemy po wektorze z klientami
+	//i dla kazdego z nich wysylamy dane
 }
 
 void wyslijDaneDoSerwera()

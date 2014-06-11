@@ -43,6 +43,7 @@ public:
 	void oczekujNaNowegoKlienta()
 	{
 		//http://www.sfml-dev.org/documentation/2.0/classsf_1_1SocketSelector.php
+
 		if (selector.wait(sf::milliseconds(1)))
 		{
 			// Test the listener
@@ -70,6 +71,7 @@ public:
 	void odbierzDaneOdKlientow()
 	{
 		//http://www.sfml-dev.org/documentation/2.0/classsf_1_1SocketSelector.php
+
 		if (selector.wait(sf::milliseconds(1)))
 		{
 			// Test the listener
