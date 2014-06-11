@@ -374,7 +374,7 @@ int main(int argc, char *argv[])
 		for (int i = 0; i <4; i++)
 			createPlayerWindow(gracze[i]);
 		createBall(ball);
-		if (czySerwer)
+		if (czySerwer && serwer.dajLiczbeGraczy() >= 4)
 			ball.update();
 		int mapaX;
 		int mapaY;
