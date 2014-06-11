@@ -5,8 +5,11 @@ struct DaneOdSerwera {
 	int idGracza[4];
 	float pozycjaX[4];
 	float pozycjaY[4];
+	int wynik[4];
+	int zycia[4];
 	float pilkaX;
 	float pilkaY;
+	std::string mapa[12][12];
 };
 
 class Klient {
@@ -56,9 +59,18 @@ public:
 				dane >> odebraneDane.idGracza[i];
 				dane >> odebraneDane.pozycjaX[i];
 				dane >> odebraneDane.pozycjaY[i];
+				dane >> odebraneDane.wynik[i];
+				dane >> odebraneDane.zycia[i];
 			}
 			dane >> odebraneDane.pilkaX;
 			dane >> odebraneDane.pilkaY;
+			for (int i = 0; i < 12; i++)
+			{
+				for (int j = 0; j < 12; j++)
+				{
+					dane >> odebraneDane.mapa[i][j];
+				}
+			}
 		}
 	}
 	void rozlaczKlienta()

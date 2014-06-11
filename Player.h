@@ -52,10 +52,13 @@ public:
 	int getIndex() { return index; }
 	string getName() { return name; }
 	int getScore() { return score; }
+	void setScore(int points) { score = points; }
 	int getLives() { return lives; }
+	void setLives(int hp) { lives = hp; }
 	float getX() { return x; }
 	float getY() { return y; }
 	float getWidth() { return width; }
+	void setWidth(float d) { width = d;  }
 	sf::Color getColor() { return color; }
 	string getStringScore()
 	{

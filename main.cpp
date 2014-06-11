@@ -124,25 +124,22 @@ void wyslijDaneDoKlientow()
 		dane << i;
 		dane << gracze[i].getX();
 		dane << gracze[i].getY();
+		dane << gracze[i].getScore();
+		dane << gracze[i].getLives();
 	}
 	dane << ball.getX();
 	dane << ball.getY();
+	for (int i = 0; i < 12; i++)
+	{
+		for (int j = 0; j < 12; j++)
+		{
+			dane << mapa[i][j];
+		}
+	}
+	
 	serwer.wyslijPakietDoGraczy(dane);//iterujemy po wektorze z klientami
 	//i dla kazdego z nich wysylamy dane
 }
-
-/*void wyslijDaneDoKlientow()
-{
-	sf::Packet dane;
-	for (int i = 0; i < 4; i++)
-	{
-		dane << i;
-		dane << gracze[i].getX();
-		dane << gracze[i].getY();
-	}
-	serwer.wyslijPakietDoGraczy(dane);//iterujemy po wektorze z klientami
-	//i dla kazdego z nich wysylamy dane
-}*/
 
 void wyslijDaneDoSerwera()
 {
@@ -168,21 +165,36 @@ void aktualizujPozycjeGraczyNaKliencie()
 		{
 		case 0:
 			gracze[0].setPosition(klient.odebraneDane.pozycjaX[i], klient.odebraneDane.pozycjaY[i]);
+			gracze[0].setScore(klient.odebraneDane.wynik[i]);
+			gracze[0].setLives(klient.odebraneDane.zycia[i]);
 			break;
 		case 1:
 			gracze[1].setPosition(klient.odebraneDane.pozycjaX[i], klient.odebraneDane.pozycjaY[i]);
+			gracze[1].setScore(klient.odebraneDane.wynik[i]);
+			gracze[1].setLives(klient.odebraneDane.zycia[i]);
 			break;
 		case 2:
 			gracze[2].setPosition(klient.odebraneDane.pozycjaX[i], klient.odebraneDane.pozycjaY[i]);
+			gracze[2].setScore(klient.odebraneDane.wynik[i]);
+			gracze[2].setLives(klient.odebraneDane.zycia[i]);
 			break;
 		case 3:
 			gracze[3].setPosition(klient.odebraneDane.pozycjaX[i], klient.odebraneDane.pozycjaY[i]);
+			gracze[3].setScore(klient.odebraneDane.wynik[i]);
+			gracze[3].setLives(klient.odebraneDane.zycia[i]);
 			break;
 		}
 	}
 	ball.setPosition(klient.odebraneDane.pilkaX, klient.odebraneDane.pilkaY);
+	for (int i = 0; i < 12; i++)
+	{
+		for (int j = 0; j < 12; j++)
+		{
+			mapa[i][j] = klient.odebraneDane.mapa[i][j];
+		}
+	}
 }
-void wczytaj_mape()
+void wczytaj_mape()	//wczytuje do tablicy charow[12][12]
 {
 	int x = 0;
 	int y = 0;
@@ -289,9 +301,9 @@ int main(int argc, char *argv[])
 	czySerwer = true;
 	oknoAktywne = true;
 
-	mapa = new string *[100];
-	for (int i = 0; i<100; i++)
-		mapa[i] = new string[100];
+	mapa = new string *[12];
+	for (int i = 0; i<12; i++)
+		mapa[i] = new string[12];
 
 	if (czySerwer)
 	{
