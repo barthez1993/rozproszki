@@ -355,8 +355,12 @@ int main()
 			createPlayerWindow(gracze[i]);
 		createBall(ball);
 		ball.update();
+		int mapaX;
+		int mapaY;
+		//sprawdzanie kolizji z klockiem dla gracza 1
+		//if (ball.getY() - 5 == mapa[]
 		//sprawdzanie kolizji z graczem
-		if (ball.getY()+5 == gracze[0].getY())		//gracz1
+		if (ball.getY()+10 == gracze[0].getY())		//gracz 1
 		{
 			float pointB = ball.getX();			// wspolrzedna X kolizji pilki
 			float pointP = gracze[0].getX();	//wspolrzedna X kolizji paletki
@@ -365,7 +369,7 @@ int main()
 			ball.setDx(angleX);
 			ball.setDy(-1);
 		}
-		if (ball.getY() - 5 == gracze[1].getY())		//gracz2
+		if (ball.getY() - 10 == gracze[1].getY())		//gracz 2
 		{
 			float pointB = ball.getX();			// wspolrzedna X kolizji pilki
 			float pointP = gracze[1].getX();	//wspolrzedna X kolizji paletki
@@ -374,6 +378,25 @@ int main()
 			ball.setDx(angleX);
 			ball.setDy(1);
 		}
+		if (ball.getX() - 10 == gracze[2].getX())		//gracz 3
+		{
+			float pointB = ball.getY();			// wspolrzedna Y kolizji pilki
+			float pointP = gracze[2].getY();	//wspolrzedna Y kolizji paletki
+			float pointW = gracze[2].getWidth() / 2;
+			float angleY = (pointB - pointP - pointW) / pointW;
+			ball.setDx(1);
+			ball.setDy(angleY);
+		}
+		if (ball.getX() + 10 == gracze[2].getX())		//gracz 4
+		{
+			float pointB = ball.getY();			// wspolrzedna Y kolizji pilki
+			float pointP = gracze[3].getY();	//wspolrzedna Y kolizji paletki
+			float pointW = gracze[3].getWidth() / 2;
+			float angleY = (pointB - pointP - pointW) / pointW;
+			ball.setDx(-1);
+			ball.setDy(angleY);
+		}
+		
 		//rysowanie reszty
 		//window.draw(gameField);
 
