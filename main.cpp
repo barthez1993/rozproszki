@@ -18,6 +18,7 @@ sf::ContextSettings settings(0, 0, 4, 2, 1);	//wygladzanie krawedzi x4
 sf::RenderWindow window(sf::VideoMode(1280, 720), "ARKANOID", sf::Style::Default, settings);
 sf::Clock timer;
 Serwer serwer;
+Ball ball;
 Klient klient;
 bool czySerwer;
 bool oknoAktywne;//czy okno jest aktywne
@@ -115,8 +116,22 @@ void przesunPaletkiGraczyNaSerwerze()
 		}
 	}
 }
-
 void wyslijDaneDoKlientow()
+{
+	sf::Packet dane;
+	for (int i = 0; i < 4; i++)
+	{
+		dane << i;
+		dane << gracze[i].getX();
+		dane << gracze[i].getY();
+	}
+	dane << ball.getX();
+	dane << ball.getY();
+	serwer.wyslijPakietDoGraczy(dane);//iterujemy po wektorze z klientami
+	//i dla kazdego z nich wysylamy dane
+}
+
+/*void wyslijDaneDoKlientow()
 {
 	sf::Packet dane;
 	for (int i = 0; i < 4; i++)
@@ -127,7 +142,7 @@ void wyslijDaneDoKlientow()
 	}
 	serwer.wyslijPakietDoGraczy(dane);//iterujemy po wektorze z klientami
 	//i dla kazdego z nich wysylamy dane
-}
+}*/
 
 void wyslijDaneDoSerwera()
 {
@@ -165,8 +180,8 @@ void aktualizujPozycjeGraczyNaKliencie()
 			break;
 		}
 	}
+	ball.setPosition(klient.odebraneDane.pilkaX, klient.odebraneDane.pilkaY);
 }
-
 void wczytaj_mape()
 {
 	int x = 0;
@@ -266,7 +281,6 @@ void createBall(Ball ball)
 
 int main()
 {
-	Ball ball;
 
 	gracze[0].setName("Gracz 1");
 	gracze[1].setName("Gracz 2");
@@ -281,6 +295,7 @@ int main()
 
 	if (czySerwer)
 	{
+
 		bool czyUruchomiono = serwer.uruchomSerwer();
 		if (!czyUruchomiono)
 			czySerwer = false;
@@ -354,12 +369,15 @@ int main()
 		createMap();
 
 		//rysowanie okien gracza
+		//rysowanie okien gracza
 		for (int i = 0; i <4; i++)
 			createPlayerWindow(gracze[i]);
 		createBall(ball);
-		ball.update();
+		if (czySerwer)
+			ball.update();
 		int mapaX;
 		int mapaY;
+		
 		/* do debuga, pozniej wykomentowac */
 		if (gameStarted == false)
 		{

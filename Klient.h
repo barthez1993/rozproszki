@@ -5,6 +5,8 @@ struct DaneOdSerwera {
 	int idGracza[4];
 	float pozycjaX[4];
 	float pozycjaY[4];
+	float pilkaX;
+	float pilkaY;
 };
 
 class Klient {
@@ -36,7 +38,7 @@ public:
 
 		socket.send(dane);
 	}
-	void odbierzDaneOdSerwera(){
+	/*void odbierzDaneOdSerwera(){
 		sf::Packet dane;
 		if (socket.receive(dane) == sf::Socket::Done){//dane udalo sie odebrac
 			for (int i = 0; i < 4; i++){
@@ -45,8 +47,20 @@ public:
 				dane >> odebraneDane.pozycjaY[i];
 			}
 		}
-	}
+	}*/
 
+	void odbierzDaneOdSerwera(){
+		sf::Packet dane;
+		if (socket.receive(dane) == sf::Socket::Done){//dane udalo sie odebrac
+			for (int i = 0; i < 4; i++){
+				dane >> odebraneDane.idGracza[i];
+				dane >> odebraneDane.pozycjaX[i];
+				dane >> odebraneDane.pozycjaY[i];
+			}
+			dane >> odebraneDane.pilkaX;
+			dane >> odebraneDane.pilkaY;
+		}
+	}
 	void rozlaczKlienta()
 	{
 		socket.disconnect();
