@@ -1,23 +1,28 @@
 #include <SFML/Graphics.hpp>
 #include <cmath>
 #include <iostream>
+#include <conio.h>
+#include <fstream>
+#include <sstream>
 #include <Windows.h>
 #include "Player.h"
 #include "Serwer.h"
 #include "Klient.h"
-
+#include "Ball.h"
 Player gracze[4];
 
+using namespace std;
 
 //zmienne globalne rz¹dz¹!
-sf::ContextSettings settings(0,0,4,2,1);	//wygladzanie krawedzi x4
+sf::ContextSettings settings(0, 0, 4, 2, 1);	//wygladzanie krawedzi x4
 sf::RenderWindow window(sf::VideoMode(1280, 720), "ARKANOID", sf::Style::Default, settings);
 sf::Clock timer;
 Serwer serwer;
 Klient klient;
 bool czySerwer;
 bool oknoAktywne;//czy okno jest aktywne
-
+bool gameStarted=false;
+string **mapa;
 
 void createPlayerPaddle(Player player)		//tworzenie paletki
 {
@@ -25,7 +30,7 @@ void createPlayerPaddle(Player player)		//tworzenie paletki
 	if (player.getOrientation()) paddle.setSize(sf::Vector2f(player.getWidth(), 15));
 	else paddle.setSize(sf::Vector2f(15, player.getWidth()));
 	paddle.setFillColor(player.getColor());
-	
+
 	//if (player.getOrientation()) player.setX(timer.getElapsedTime().asSeconds()*60);	//do debuga
 	paddle.move(player.getX(), player.getY());
 	window.draw(paddle);
@@ -49,7 +54,7 @@ void createPlayerWindow(Player player)
 	}
 	sf::Text name;
 	name.setFont(font);
-	name.setString(player.getName()+"\n"+player.getStringScore());
+	name.setString(player.getName() + "\n" + player.getStringScore());
 	name.setCharacterSize(60);
 	name.setColor(player.getColor());
 	playerWindow.move(720, y);
@@ -64,12 +69,11 @@ void createPlayerWindow(Player player)
 		sf::Sprite heartSprite;
 		heartSprite.setTexture(heart);
 		heartSprite.setColor(player.getColor());
-		heartSprite.move(1280-i*80, y+10);
+		heartSprite.move(1280 - i * 80, y + 10);
 		window.draw(heartSprite);
 	}
 	createPlayerPaddle(player);
 }
-
 
 void przesunPaletkiGraczyNaSerwerze()
 {
@@ -80,7 +84,7 @@ void przesunPaletkiGraczyNaSerwerze()
 		switch (daneGracza.numerGracza)
 		{
 		case 1:
-			if (daneGracza.kierunekPaletki==-1)
+			if (daneGracza.kierunekPaletki == -1)
 				gracze[0].moveLeft();
 
 			if (daneGracza.kierunekPaletki == 1)
@@ -162,15 +166,118 @@ void aktualizujPozycjeGraczyNaKliencie()
 		}
 	}
 }
-// WYSLANEEEEEE
+
+void wczytaj_mape()
+{
+	int x = 0;
+	int y = 0;
+
+
+	fstream plik;
+	plik.open("res/mapa.txt", ios::in);
+	if (plik.good())
+	{
+		while (!plik.eof())
+		{
+			for (x = 0; x<12; x++)
+			{
+				for (y = 0; y<12; y++)
+				{
+					plik >> mapa[x][y];
+				}
+			}
+		}
+		plik.close();
+	}
+
+}
+
+void createMap()
+{
+
+	int kolumna = 0;
+	int wiersz = 0;
+	float x = 180, y = 180;
+	sf::RectangleShape playWindow;
+
+	for (wiersz = 0; wiersz < 12; wiersz++)
+	{
+		for (kolumna = 0; kolumna < 12; kolumna++)
+		{
+			if (mapa[wiersz][kolumna] == "R")
+			{
+				playWindow.setPosition(x, y);
+				playWindow.setSize(sf::Vector2f(28, 28));
+				playWindow.setFillColor(sf::Color::Red);
+				window.draw(playWindow);
+			}
+			if (mapa[wiersz][kolumna] == "G")
+			{
+				playWindow.setPosition(x, y);
+				playWindow.setSize(sf::Vector2f(28, 28));
+				playWindow.setFillColor(sf::Color::Green);
+				window.draw(playWindow);
+			}
+			if (mapa[wiersz][kolumna] == "B")
+			{
+				playWindow.setPosition(x, y);
+				playWindow.setSize(sf::Vector2f(28, 28));
+				playWindow.setFillColor(sf::Color::Blue);
+				window.draw(playWindow);
+			}
+			if (mapa[wiersz][kolumna] == "Y")
+			{
+				playWindow.setPosition(x, y);
+				playWindow.setSize(sf::Vector2f(28, 28));
+				playWindow.setFillColor(sf::Color::Yellow);
+				window.draw(playWindow);
+			}
+			if (mapa[wiersz][kolumna] == "M")
+			{
+				playWindow.setPosition(x, y);
+				playWindow.setSize(sf::Vector2f(28, 28));
+				playWindow.setFillColor(sf::Color::Magenta);
+				window.draw(playWindow);
+			}
+			if (mapa[wiersz][kolumna] == "C")
+			{
+				playWindow.setPosition(x, y);
+				playWindow.setSize(sf::Vector2f(28, 28));
+				playWindow.setFillColor(sf::Color::Cyan);
+				window.draw(playWindow);
+			}
+
+			x += 30;
+
+		}
+		y += 30;
+		x = 180;
+	}
+
+}
+
+void createBall(Ball ball)
+{
+	sf::CircleShape ballShape(5);
+	ballShape.setFillColor(sf::Color::White);
+	ballShape.setPosition(ball.getX(), ball.getY());
+	window.draw(ballShape);
+}
+
 int main()
 {
+	Ball ball;
+
 	gracze[0].setName("Gracz 1");
 	gracze[1].setName("Gracz 2");
 	gracze[2].setName("Gracz 3");
 	gracze[3].setName("Gracz 4");
 	czySerwer = true;
 	oknoAktywne = true;
+
+	mapa = new string *[100];
+	for (int i = 0; i<100; i++)
+		mapa[i] = new string[100];
 
 	if (czySerwer)
 	{
@@ -179,12 +286,13 @@ int main()
 			czySerwer = false;
 
 	}
-	
+
 
 	klient.podlaczDoSerwera("127.0.0.1");
 	// run the program as long as the window is open
 	while (window.isOpen())
 	{
+
 		// check all the window's events that were triggered since the last iteration of the loop
 		sf::Event event;
 		while (window.pollEvent(event))
@@ -202,7 +310,7 @@ int main()
 
 			case sf::Event::GainedFocus:
 				oknoAktywne = true;
-			}		
+			}
 		}
 
 		//Obsluga komunikacji serwera
@@ -212,6 +320,11 @@ int main()
 			serwer.odbierzDaneOdKlientow();
 			wyslijDaneDoKlientow();
 			przesunPaletkiGraczyNaSerwerze();
+			/*if (serwer.dajLiczbeGraczy() == 4 && gameStarted==false)
+			{
+				ball.setDy(1);
+				gameStarted = true;
+			}*/
 		}
 
 		//Obs³uga komunikacji klienta
@@ -239,11 +352,64 @@ int main()
 
 		// draw everything here...
 		// window.draw(...);
+		wczytaj_mape();
+
+		createMap();
 
 		//rysowanie okien gracza
-		for (int i = 0; i <4;i++)
-		createPlayerWindow(gracze[i]);
+		for (int i = 0; i <4; i++)
+			createPlayerWindow(gracze[i]);
+		createBall(ball);
+		ball.update();
+		int mapaX;
+		int mapaY;
+		
+		if (gameStarted == false)
+		{
+			ball.setDy(1);
+			gameStarted = true;
+		}
 
+		//sprawdzanie kolizji z klockiem dla gracza 1
+		//if (ball.getY() - 5 == mapa[]
+		//sprawdzanie kolizji z graczem
+		if (ball.getY()+10 == gracze[0].getY())		//gracz 1
+		{
+			float pointB = ball.getX();			// wspolrzedna X kolizji pilki
+			float pointP = gracze[0].getX();	//wspolrzedna X kolizji paletki
+			float pointW = gracze[0].getWidth() / 2;
+			float angleX = (pointB - pointP - pointW) / pointW;
+			ball.setDx(angleX);
+			ball.setDy(-1);
+		}
+		if (ball.getY() - 10 == gracze[1].getY())		//gracz 2
+		{
+			float pointB = ball.getX();			// wspolrzedna X kolizji pilki
+			float pointP = gracze[1].getX();	//wspolrzedna X kolizji paletki
+			float pointW = gracze[1].getWidth() / 2;
+			float angleX = (pointB - pointP - pointW) / pointW;
+			ball.setDx(angleX);
+			ball.setDy(1);
+		}
+		if (ball.getX() - 10 == gracze[2].getX())		//gracz 3
+		{
+			float pointB = ball.getY();			// wspolrzedna Y kolizji pilki
+			float pointP = gracze[2].getY();	//wspolrzedna Y kolizji paletki
+			float pointW = gracze[2].getWidth() / 2;
+			float angleY = (pointB - pointP - pointW) / pointW;
+			ball.setDx(1);
+			ball.setDy(angleY);
+		}
+		if (ball.getX() + 10 == gracze[2].getX())		//gracz 4
+		{
+			float pointB = ball.getY();			// wspolrzedna Y kolizji pilki
+			float pointP = gracze[3].getY();	//wspolrzedna Y kolizji paletki
+			float pointW = gracze[3].getWidth() / 2;
+			float angleY = (pointB - pointP - pointW) / pointW;
+			ball.setDx(-1);
+			ball.setDy(angleY);
+		}
+		
 		//rysowanie reszty
 		//window.draw(gameField);
 

@@ -68,16 +68,16 @@ public:
 	//klawiatura
 	void moveLeft()
 	{ 
-		if (getOrientation())
+		if (getOrientation()&&getX()>=0)
 			x = x - 5;
-		else
+		else if (!getOrientation() && getY() >= 0)
 			y = y - 5;
 	}
 	void moveRight() 
 	{ 
-		if (getOrientation())
+		if (getOrientation() && (getX() <= (720 - getWidth())))
 			x = x + 5; 
-		else
+		else if (!getOrientation() && (getY() <= (720 - getWidth())))
 			y = y + 5;
 	}
 

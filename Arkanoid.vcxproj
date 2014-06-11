@@ -73,13 +73,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Klient.cpp" />
+    <ClCompile Include="Ball.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Serwer1.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Ball.h" />
     <ClInclude Include="Klient.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="Player.h" />
@@ -90,6 +90,9 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\heart.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="res\mapa.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
