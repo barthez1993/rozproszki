@@ -6,7 +6,7 @@ Ball::Ball()
 	x = 360;
 	y = 600;
 	dx = 0;
-	dy = 1;
+	dy = 0;
 	lastPlayer = 0;
 }
 

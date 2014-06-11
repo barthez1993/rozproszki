@@ -21,7 +21,7 @@ Serwer serwer;
 Klient klient;
 bool czySerwer;
 bool oknoAktywne;//czy okno jest aktywne
-
+bool gameStarted=false;
 string **mapa;
 
 void createPlayerPaddle(Player player)		//tworzenie paletki
@@ -319,6 +319,11 @@ int main()
 			serwer.odbierzDaneOdKlientow();
 			wyslijDaneDoKlientow();
 			przesunPaletkiGraczyNaSerwerze();
+			/*if (serwer.dajLiczbeGraczy() == 4 && gameStarted==false)
+			{
+				ball.setDy(1);
+				gameStarted = true;
+			}*/
 		}
 
 		//Obs³uga komunikacji klienta
@@ -357,6 +362,13 @@ int main()
 		ball.update();
 		int mapaX;
 		int mapaY;
+		
+		if (gameStarted == false)
+		{
+			ball.setDy(1);
+			gameStarted = true;
+		}
+
 		//sprawdzanie kolizji z klockiem dla gracza 1
 		//if (ball.getY() - 5 == mapa[]
 		//sprawdzanie kolizji z graczem
