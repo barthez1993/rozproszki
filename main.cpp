@@ -286,14 +286,16 @@ int main()
 
 	}
 
-
+	wczytaj_mape();
 	klient.podlaczDoSerwera("127.0.0.1");
+	
 	// run the program as long as the window is open
 	while (window.isOpen())
 	{
 
 		// check all the window's events that were triggered since the last iteration of the loop
 		sf::Event event;
+		
 		while (window.pollEvent(event))
 		{
 			// "close requested" event: we close the window
@@ -341,17 +343,12 @@ int main()
 			window.close();
 		}
 
-
-		//costam
-		sf::RectangleShape gameField(sf::Vector2f(720, 720));	//wymiary pola gry, musi byc kwadrat
-		gameField.setFillColor(sf::Color());		//kolor RGB do wypelnienia
-
 		// clear the window with black color
 		window.clear(sf::Color::Black);
 
 		// draw everything here...
 		// window.draw(...);
-		wczytaj_mape();
+		
 
 		createMap();
 
@@ -362,17 +359,31 @@ int main()
 		ball.update();
 		int mapaX;
 		int mapaY;
-		
+		/* do debuga, pozniej wykomentowac */
 		if (gameStarted == false)
 		{
 			ball.setDy(1);
 			gameStarted = true;
 		}
-
+		//czy jest w srodkowym kwadracie
+		if (ball.getX() >= 180 && ball.getX() <= 540 && ball.getY() >= 180 && ball.getY() <= 540) 
+		{
+			mapaX = (ball.getX() - 180) / 30;
+			mapaY = (ball.getY() - 180) / 30;
+			if (mapa[mapaY][mapaX] != " ")
+			{
+				mapa[mapaY][mapaX] = " ";
+				ball.setDy(ball.getDy()*-1);
+				//ball.setDx(ball.getDx()*-1);
+				gracze[ball.getLastPlayer()].addPoints(100);
+			}
+			
+		}
+		
+		
 		//sprawdzanie kolizji z klockiem dla gracza 1
-		//if (ball.getY() - 5 == mapa[]
 		//sprawdzanie kolizji z graczem
-		if (ball.getY()+10 == gracze[0].getY())		//gracz 1
+		else if (ball.getY()+10 == gracze[0].getY())		//gracz 1
 		{
 			float pointB = ball.getX();			// wspolrzedna X kolizji pilki
 			float pointP = gracze[0].getX();	//wspolrzedna X kolizji paletki
@@ -380,8 +391,9 @@ int main()
 			float angleX = (pointB - pointP - pointW) / pointW;
 			ball.setDx(angleX);
 			ball.setDy(-1);
+			ball.setLastPlayer(0);
 		}
-		if (ball.getY() - 10 == gracze[1].getY())		//gracz 2
+		else if (ball.getY() - 10 == gracze[1].getY())		//gracz 2
 		{
 			float pointB = ball.getX();			// wspolrzedna X kolizji pilki
 			float pointP = gracze[1].getX();	//wspolrzedna X kolizji paletki
@@ -389,8 +401,9 @@ int main()
 			float angleX = (pointB - pointP - pointW) / pointW;
 			ball.setDx(angleX);
 			ball.setDy(1);
+			ball.setLastPlayer(1);
 		}
-		if (ball.getX() - 10 == gracze[2].getX())		//gracz 3
+		else if (ball.getX() - 10 == gracze[2].getX())		//gracz 3
 		{
 			float pointB = ball.getY();			// wspolrzedna Y kolizji pilki
 			float pointP = gracze[2].getY();	//wspolrzedna Y kolizji paletki
@@ -398,8 +411,9 @@ int main()
 			float angleY = (pointB - pointP - pointW) / pointW;
 			ball.setDx(1);
 			ball.setDy(angleY);
+			ball.setLastPlayer(2);
 		}
-		if (ball.getX() + 10 == gracze[2].getX())		//gracz 4
+		else if (ball.getX() + 10 == gracze[2].getX())		//gracz 4
 		{
 			float pointB = ball.getY();			// wspolrzedna Y kolizji pilki
 			float pointP = gracze[3].getY();	//wspolrzedna Y kolizji paletki
@@ -407,12 +421,8 @@ int main()
 			float angleY = (pointB - pointP - pointW) / pointW;
 			ball.setDx(-1);
 			ball.setDy(angleY);
+			ball.setLastPlayer(3);
 		}
-		
-		//rysowanie reszty
-		//window.draw(gameField);
-
-		// end the current frame
 		window.display();
 	}
 	klient.rozlaczKlienta();

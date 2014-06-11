@@ -14,6 +14,7 @@ public:
 	float getY() { return y; }
 	float getDx() { return dx; }
 	float getDy() { return dy; }
+	int getLastPlayer(){ return lastPlayer; }
 	void setLastPlayer(int i) { lastPlayer = i; }
 	void updateX() { x += dx; }
 	void updateY() { y += dy; }

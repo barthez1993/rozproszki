@@ -91,4 +91,8 @@ public:
 		x = pozycjaX;
 		y = pozycjaY;
 	}
+	void addPoints(int points)
+	{
+		score += points;
+	}
 };
