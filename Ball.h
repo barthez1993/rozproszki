@@ -21,5 +21,10 @@ public:
 	void update() { updateX(); updateY(); }
 	void setDx(float x) { dx = x; }
 	void setDy(float y) { dy = y; }
+	void setPosition(float xx, float yy)
+	{
+		x = xx;
+		y = yy;
+	}
 };
 

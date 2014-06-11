@@ -363,24 +363,27 @@ int main()
 		/* do debuga, pozniej wykomentowac */
 		if (gameStarted == false)
 		{
-			ball.setDy(1);
+			ball.setDx(-1);
+			ball.setDy(0);
+			ball.setPosition(150, 360);
 			gameStarted = true;
 		}
 		//czy jest w srodkowym kwadracie
-		if (ball.getX() >= 180 && ball.getX() <= 540 && ball.getY() >= 180 && ball.getY() <= 540) 
+		//wszedzie +5 bo obliczamy dla œrodka pilki a nie jej gornego lewego rogu
+		if (ball.getX()+5 >= 180 && ball.getX()+5 <= 540 && ball.getY()+5 >= 180 && ball.getY()+5 <= 540)
 		{
-			mapaX = (ball.getX() - 180) / 30;
-			mapaY = (ball.getY() - 180) / 30;
+			mapaX = (ball.getX()+5 - 180) / 30;
+			mapaY = (ball.getY()+5 - 180) / 30;
 			if (mapa[mapaY][mapaX] != " ")
 			{
 				mapa[mapaY][mapaX] = " ";
-				ball.setDy(ball.getDy()*-1);
-				//ball.setDx(ball.getDx()*-1);
+				if (ball.getLastPlayer() == 2 || ball.getLastPlayer() == 3)
+					ball.setDx(ball.getDx()*-1);
+				else if (ball.getLastPlayer() == 0 || ball.getLastPlayer() == 0)
+					ball.setDy(ball.getDy()*-1);
 				gracze[ball.getLastPlayer()].addPoints(100);
-			}
-			
+			}	
 		}
-		
 		
 		//sprawdzanie kolizji z klockiem dla gracza 1
 		//sprawdzanie kolizji z graczem
